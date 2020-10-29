@@ -1,8 +1,6 @@
-require_relative 'lib/win32ole/version'
-
 Gem::Specification.new do |spec|
   spec.name          = "win32ole"
-  spec.version       = Win32ole::VERSION
+  spec.version       = "1.8.8"
   spec.authors       = ["Hiroshi SHIBATA"]
   spec.email         = ["hsbt@ruby-lang.org"]
 
