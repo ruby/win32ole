@@ -1,8 +1,8 @@
-# Win32ole
+# WIN32OLE
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/win32ole`. To experiment with that code, run `bin/console` for an interactive prompt.
+WIN32OLE objects represent OLE Automation object in Ruby.
 
-TODO: Delete this and the text above, and describe your gem
+By using WIN32OLE, you can access OLE server like VBScript.
 
 ## Installation
 
@@ -22,7 +22,27 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+require 'win32ole'
+
+excel = WIN32OLE.new('Excel.Application')
+excel.visible = true
+workbook = excel.Workbooks.Add();
+worksheet = workbook.Worksheets(1);
+worksheet.Range("A1:D1").value = ["North","South","East","West"];
+worksheet.Range("A2:B2").value = [5.2, 10];
+worksheet.Range("C2").value = 8;
+worksheet.Range("D2").value = 20;
+
+range = worksheet.Range("A1:D2");
+range.select
+chart = workbook.Charts.Add;
+
+workbook.saved = true;
+
+excel.ActiveWorkbook.Close(0);
+excel.Quit();
+```
 
 ## Development
 
@@ -32,5 +52,5 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/hsbt/win32ole.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ruby/win32ole.
 
