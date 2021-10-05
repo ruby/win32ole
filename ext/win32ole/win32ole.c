@@ -2542,7 +2542,7 @@ hash2named_arg(VALUE key, VALUE val, VALUE pop)
     /*---------------------------------------------
       the data-type of key must be String or Symbol
     -----------------------------------------------*/
-    if(!RB_TYPE_P(key, T_STRING) && !RB_TYPE_P(key, T_SYMBOL)) {
+    if(!RB_TYPE_P(key, T_STRING) && !SYMBOL_P(key)) {
         /* clear name of dispatch parameters */
         for(i = 1; i < index + 1; i++) {
             SysFreeString(pOp->pNamedArgs[i]);
@@ -2554,7 +2554,7 @@ hash2named_arg(VALUE key, VALUE val, VALUE pop)
         /* raise an exception */
         rb_raise(rb_eTypeError, "wrong argument type (expected String or Symbol)");
     }
-    if (RB_TYPE_P(key, T_SYMBOL)) {
+    if (SYMBOL_P(key)) {
 	key = rb_sym2str(key);
     }
 
@@ -2618,10 +2618,10 @@ ole_invoke(int argc, VALUE *argv, VALUE self, USHORT wFlags, BOOL is_bracket)
     op.dp.cArgs = 0;
 
     rb_scan_args(argc, argv, "1*", &cmd, &paramS);
-    if(!RB_TYPE_P(cmd, T_STRING) && !RB_TYPE_P(cmd, T_SYMBOL) && !is_bracket) {
+    if(!RB_TYPE_P(cmd, T_STRING) && !SYMBOL_P(cmd) && !is_bracket) {
 	rb_raise(rb_eTypeError, "method is wrong type (expected String or Symbol)");
     }
-    if (RB_TYPE_P(cmd, T_SYMBOL)) {
+    if (SYMBOL_P(cmd)) {
 	cmd = rb_sym2str(cmd);
     }
     pole = oledata_get_struct(self);
@@ -3630,10 +3630,10 @@ fole_respond_to(VALUE self, VALUE method)
     BSTR wcmdname;
     DISPID DispID;
     HRESULT hr;
-    if(!RB_TYPE_P(method, T_STRING) && !RB_TYPE_P(method, T_SYMBOL)) {
+    if(!RB_TYPE_P(method, T_STRING) && !SYMBOL_P(method)) {
         rb_raise(rb_eTypeError, "wrong argument type (expected String or Symbol)");
     }
-    if (RB_TYPE_P(method, T_SYMBOL)) {
+    if (SYMBOL_P(method)) {
         method = rb_sym2str(method);
     }
     pole = oledata_get_struct(self);

@@ -1038,10 +1038,10 @@ ev_on_event(int argc, VALUE *argv, VALUE self, VALUE is_ary_arg)
     }
     rb_scan_args(argc, argv, "01*", &event, &args);
     if(!NIL_P(event)) {
-        if(!RB_TYPE_P(event, T_STRING) && !RB_TYPE_P(event, T_SYMBOL)) {
+        if(!RB_TYPE_P(event, T_STRING) && !SYMBOL_P(event)) {
             rb_raise(rb_eTypeError, "wrong argument type (expected String or Symbol)");
         }
-        if (RB_TYPE_P(event, T_SYMBOL)) {
+        if (SYMBOL_P(event)) {
             event = rb_sym2str(event);
         }
     }
@@ -1128,10 +1128,10 @@ fev_off_event(int argc, VALUE *argv, VALUE self)
 
     rb_scan_args(argc, argv, "01", &event);
     if(!NIL_P(event)) {
-        if(!RB_TYPE_P(event, T_STRING) && !RB_TYPE_P(event, T_SYMBOL)) {
+        if(!RB_TYPE_P(event, T_STRING) && !SYMBOL_P(event)) {
             rb_raise(rb_eTypeError, "wrong argument type (expected String or Symbol)");
         }
-        if (RB_TYPE_P(event, T_SYMBOL)) {
+        if (SYMBOL_P(event)) {
             event = rb_sym2str(event);
         }
     }

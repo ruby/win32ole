@@ -284,10 +284,10 @@ folerecord_initialize(VALUE self, VALUE typename, VALUE oleobj) {
     ITypeLib *pTypeLib = NULL;
     IRecordInfo *pri = NULL;
 
-    if (!RB_TYPE_P(typename, T_STRING) && !RB_TYPE_P(typename, T_SYMBOL)) {
+    if (!RB_TYPE_P(typename, T_STRING) && !SYMBOL_P(typename)) {
         rb_raise(rb_eArgError, "1st argument should be String or Symbol");
     }
-    if (RB_TYPE_P(typename, T_SYMBOL)) {
+    if (SYMBOL_P(typename)) {
         typename = rb_sym2str(typename);
     }
 
@@ -503,11 +503,11 @@ static VALUE
 folerecord_ole_instance_variable_get(VALUE self, VALUE name)
 {
     VALUE sname;
-    if(!RB_TYPE_P(name, T_STRING) && !RB_TYPE_P(name, T_SYMBOL)) {
+    if(!RB_TYPE_P(name, T_STRING) && !SYMBOL_P(name)) {
         rb_raise(rb_eTypeError, "wrong argument type (expected String or Symbol)");
     }
     sname = name;
-    if (RB_TYPE_P(name, T_SYMBOL)) {
+    if (SYMBOL_P(name)) {
         sname = rb_sym2str(name);
     }
     return olerecord_ivar_get(self, sname);
@@ -542,11 +542,11 @@ static VALUE
 folerecord_ole_instance_variable_set(VALUE self, VALUE name, VALUE val)
 {
     VALUE sname;
-    if(!RB_TYPE_P(name, T_STRING) && !RB_TYPE_P(name, T_SYMBOL)) {
+    if(!RB_TYPE_P(name, T_STRING) && !SYMBOL_P(name)) {
         rb_raise(rb_eTypeError, "wrong argument type (expected String or Symbol)");
     }
     sname = name;
-    if (RB_TYPE_P(name, T_SYMBOL)) {
+    if (SYMBOL_P(name)) {
         sname = rb_sym2str(name);
     }
     return olerecord_ivar_set(self, sname, val);
