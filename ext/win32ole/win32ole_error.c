@@ -1,5 +1,8 @@
 #include "win32ole.h"
 
+VALUE eWIN32OLERuntimeError;
+VALUE eWIN32OLEQueryInterfaceError;
+
 static VALUE ole_hresult2msg(HRESULT hr);
 
 static VALUE

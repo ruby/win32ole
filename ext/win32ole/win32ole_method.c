@@ -1,5 +1,7 @@
 #include "win32ole.h"
 
+VALUE cWIN32OLE_METHOD;
+
 static void olemethod_free(void *ptr);
 static size_t olemethod_size(const void *ptr);
 static VALUE ole_method_sub(VALUE self, ITypeInfo *pOwnerTypeInfo, ITypeInfo *pTypeInfo, VALUE name);

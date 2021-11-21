@@ -1,5 +1,7 @@
 #include "win32ole.h"
 
+VALUE cWIN32OLE_VARIANT;
+
 struct olevariantdata {
     VARIANT realvar;
     VARIANT var;

@@ -1,5 +1,7 @@
 #include "win32ole.h"
 
+VALUE cWIN32OLE_VARIABLE;
+
 struct olevariabledata {
     ITypeInfo *pTypeInfo;
     UINT index;
