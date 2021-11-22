@@ -1,5 +1,7 @@
 #include "win32ole.h"
 
+VALUE cWIN32OLE_TYPELIB;
+
 struct oletypelibdata {
     ITypeLib *pTypeLib;
 };

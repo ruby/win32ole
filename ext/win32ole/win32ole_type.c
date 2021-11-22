@@ -1,5 +1,7 @@
 #include "win32ole.h"
 
+VALUE cWIN32OLE_TYPE;
+
 struct oletypedata {
     ITypeInfo *pTypeInfo;
 };

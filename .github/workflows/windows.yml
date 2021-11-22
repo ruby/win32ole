@@ -1,0 +1,24 @@
+name: windows
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: ${{ matrix.os }} ${{ matrix.ruby }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - windows-latest
+        ruby: [ '3.0', '2.7', '2.6', 'mswin', 'mingw' ]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: Run test
+      run: bundle exec rake
+
