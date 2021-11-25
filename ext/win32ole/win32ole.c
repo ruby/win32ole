@@ -36,7 +36,6 @@ typedef HWND (WINAPI FNHTMLHELP)(HWND hwndCaller, LPCSTR pszFile,
                                  UINT uCommand, DWORD dwData);
 typedef BOOL (FNENUMSYSEMCODEPAGES) (CODEPAGE_ENUMPROC, DWORD);
 VALUE cWIN32OLE;
-LCID cWIN32OLE_lcid;
 
 #if defined(RB_THREAD_SPECIFIC) && (defined(__CYGWIN__))
 static RB_THREAD_SPECIFIC BOOL g_ole_initialized;
@@ -3963,6 +3962,7 @@ check_nano_server(void)
     }
 }
 
+LCID cWIN32OLE_lcid;
 
 void
 Init_win32ole(void)

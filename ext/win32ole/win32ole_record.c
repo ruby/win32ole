@@ -1,7 +1,5 @@
 #include "win32ole.h"
 
-VALUE cWIN32OLE_RECORD;
-
 struct olerecorddata {
     IRecordInfo *pri;
     void *pdata;
@@ -590,6 +588,8 @@ folerecord_inspect(VALUE self)
                       tname,
                       field);
 }
+
+VALUE cWIN32OLE_RECORD;
 
 void
 Init_win32ole_record(void)

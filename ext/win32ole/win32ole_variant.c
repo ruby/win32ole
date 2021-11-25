@@ -1,7 +1,5 @@
 #include "win32ole.h"
 
-VALUE cWIN32OLE_VARIANT;
-
 struct olevariantdata {
     VARIANT realvar;
     VARIANT var;
@@ -690,6 +688,8 @@ ole_variant2variant(VALUE val, VARIANT *var)
     TypedData_Get_Struct(val, struct olevariantdata, &olevariant_datatype, pvar);
     VariantCopy(var, &(pvar->var));
 }
+
+VALUE cWIN32OLE_VARIANT;
 
 void
 Init_win32ole_variant(void)
