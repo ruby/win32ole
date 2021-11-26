@@ -1,7 +1,5 @@
 #include "win32ole.h"
 
-VALUE cWIN32OLE_TYPE;
-
 struct oletypedata {
     ITypeInfo *pTypeInfo;
 };
@@ -58,7 +56,7 @@ static const rb_data_type_t oletype_datatype = {
 /*
  * Document-class: WIN32OLE_TYPE
  *
- *   <code>WIN32OLE_TYPE</code> objects represent OLE type libarary information.
+ *   <code>WIN32OLE_TYPE</code> objects represent OLE type library information.
  */
 
 static void
@@ -884,6 +882,8 @@ foletype_inspect(VALUE self)
 {
     return default_inspect(self, "WIN32OLE_TYPE");
 }
+
+VALUE cWIN32OLE_TYPE;
 
 void Init_win32ole_type(void)
 {

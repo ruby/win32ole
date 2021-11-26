@@ -1,7 +1,5 @@
 #include "win32ole.h"
 
-VALUE cWIN32OLE_METHOD;
-
 static void olemethod_free(void *ptr);
 static size_t olemethod_size(const void *ptr);
 static VALUE ole_method_sub(VALUE self, ITypeInfo *pOwnerTypeInfo, ITypeInfo *pTypeInfo, VALUE name);
@@ -924,6 +922,8 @@ folemethod_inspect(VALUE self)
 {
     return default_inspect(self, "WIN32OLE_METHOD");
 }
+
+VALUE cWIN32OLE_METHOD;
 
 void Init_win32ole_method(void)
 {

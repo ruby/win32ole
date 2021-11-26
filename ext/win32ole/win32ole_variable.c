@@ -1,7 +1,5 @@
 #include "win32ole.h"
 
-VALUE cWIN32OLE_VARIABLE;
-
 struct olevariabledata {
     ITypeInfo *pTypeInfo;
     UINT index;
@@ -366,6 +364,8 @@ folevariable_inspect(VALUE self)
     VALUE detail = rb_sprintf("%"PRIsVALUE"=%"PRIsVALUE, n, v);
     return make_inspect("WIN32OLE_VARIABLE", detail);
 }
+
+VALUE cWIN32OLE_VARIABLE;
 
 void Init_win32ole_variable(void)
 {
