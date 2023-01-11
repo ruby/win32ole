@@ -3,6 +3,10 @@
 module Test
   module Unit
     module Assertions
+      def assert_raises(*exp, &b)
+        raise NoMethodError, "use assert_raise", caller
+      end
+
       def _assertions= n # :nodoc:
         @_assertions = n
       end
@@ -33,6 +37,7 @@ module Test
     module CoreAssertions
       require_relative 'envutil'
       require 'pp'
+      nil.pretty_inspect
 
       def mu_pp(obj) #:nodoc:
         obj.pretty_inspect.chomp
@@ -243,7 +248,11 @@ module Test
         at_exit {
           out.puts "#{token}<error>", [Marshal.dump($!)].pack('m'), "#{token}</error>", "#{token}assertions=#{self._assertions}"
         }
-        Test::Unit::Runner.class_variable_set(:@@stop_auto_run, true) if defined?(Test::Unit::Runner)
+        if defined?(Test::Unit::Runner)
+          Test::Unit::Runner.class_variable_set(:@@stop_auto_run, true)
+        elsif defined?(Test::Unit::AutoRunner)
+          Test::Unit::AutoRunner.need_auto_run = false
+        end
       end
 
       def assert_separately(args, file = nil, line = nil, src, ignore_stderr: nil, **opt)
@@ -253,7 +262,7 @@ module Test
           line ||= loc.lineno
         end
         capture_stdout = true
-        unless /mswin|mingw/ =~ RUBY_PLATFORM
+        unless /mswin|mingw/ =~ RbConfig::CONFIG['host_os']
           capture_stdout = false
           opt[:out] = Test::Unit::Runner.output if defined?(Test::Unit::Runner)
           res_p, res_c = IO.pipe
@@ -263,7 +272,7 @@ module Test
         src = <<eom
 # -*- coding: #{line += __LINE__; src.encoding}; -*-
 BEGIN {
-  require "test/unit";include Test::Unit::Assertions;include Test::Unit::CoreAssertions;require #{__FILE__.dump}
+  require "test/unit";include Test::Unit::Assertions;require #{__FILE__.dump};include Test::Unit::CoreAssertions
   separated_runner #{token_dump}, #{res_c&.fileno || 'nil'}
 }
 #{line -= __LINE__; src}
@@ -543,11 +552,13 @@ eom
             anchored = false
           else
             if anchored
-              match = /\A#{pattern}/.match(rest)
+              match = rest.rindex(pattern, 0)
             else
-              match = pattern.match(rest)
+              match = rest.index(pattern)
             end
-            unless match
+            if match
+              post_match = $~ ? $~.post_match : rest[match+pattern.size..-1]
+            else
               msg = message(msg) {
                 expect_msg = "Expected #{mu_pp pattern}\n"
                 if /\n[^\n]/ =~ rest
@@ -564,7 +575,7 @@ eom
               }
               assert false, msg
             end
-            rest = match.post_match
+            rest = post_match
             anchored = true
           end
         }
@@ -591,14 +602,14 @@ eom
 
       def assert_deprecated_warning(mesg = /deprecated/)
         assert_warning(mesg) do
-          Warning[:deprecated] = true
+          Warning[:deprecated] = true if Warning.respond_to?(:[]=)
           yield
         end
       end
 
       def assert_deprecated_warn(mesg = /deprecated/)
         assert_warn(mesg) do
-          Warning[:deprecated] = true
+          Warning[:deprecated] = true if Warning.respond_to?(:[]=)
           yield
         end
       end
@@ -690,7 +701,7 @@ eom
           msg = "exceptions on #{errs.length} threads:\n" +
             errs.map {|t, err|
             "#{t.inspect}:\n" +
-              RUBY_VERSION >= "2.5.0" ? err.full_message(highlight: false, order: :top) : err.message
+              err.full_message(highlight: false, order: :top)
           }.join("\n---\n")
           if message
             msg = "#{message}\n#{msg}"
