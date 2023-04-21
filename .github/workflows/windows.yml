@@ -12,7 +12,7 @@ jobs:
 
   test:
     needs: ruby-versions
-    name: build (${{ matrix.ruby }} / ${{ matrix.os }})
+    name: build (${{ matrix.ruby }})
     strategy:
       fail-fast: false
       matrix:
