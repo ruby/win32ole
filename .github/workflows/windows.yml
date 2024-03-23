@@ -19,6 +19,11 @@ jobs:
         ruby: ${{ fromJson(needs.ruby-versions.outputs.versions) }}
     runs-on: windows-latest
     steps:
+    - name: git config
+      run: |
+        git config --global core.autocrlf false
+        git config --global core.eol lf
+        git config --global advice.detachedHead 0
     - uses: actions/checkout@v4
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
