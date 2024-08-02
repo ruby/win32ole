@@ -929,7 +929,13 @@ ole_mb2wc(char *pm, int len, UINT cp)
 #endif
     }
     size = MultiByteToWideChar(cp, 0, pm, len, NULL, 0);
+    if (!size) {
+        ole_raise(HRESULT_LASTERROR(), eWIN32OLERuntimeError, "fail to convert CP%d to Unicode", cp);
+    }
     pw = SysAllocStringLen(NULL, size);
+    if (!pw) {
+        ole_raise(HRESULT_LASTERROR(), eWIN32OLERuntimeError, "fail to allocate Unicode string");
+    }
     pw[size-1] = 0;
     MultiByteToWideChar(cp, 0, pm, len, pw, size);
     return pw;
