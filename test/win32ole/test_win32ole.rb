@@ -521,7 +521,9 @@ if defined?(WIN32OLE)
     end
 
     def test_invoke_with_too_long_string
-      return unless ENV["WIN32OLE_MEMORY_INTENSIVE_TESTS"] == "yes"
+      skip = ENV["WIN32OLE_MEMORY_INTENSIVE_TESTS"]
+      return unless skip
+      omit "This test creates a 1GiB string" unless skip == "yes"
       str = "a" * 0x40000000
       assert_raise(WIN32OLE::RuntimeError) {@dict1.invoke(str)}
       assert_raise(WIN32OLE::RuntimeError) {@dict2.invoke(str)}
