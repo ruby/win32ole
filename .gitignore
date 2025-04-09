@@ -8,3 +8,8 @@
 /tmp/
 /logs/
 ChangeLog
+
+/Gemfile.lock
+ext/*/Makefile
+ext/*/*.log
+lib/**/*/*.so
