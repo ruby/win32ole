@@ -77,7 +77,11 @@ if defined?(WIN32OLE::Event)
       end
 
       def default_handler(event, *args)
-        @event += event
+        if @event
+          @event += event
+        else
+          @event = event
+        end
       end
 
       def handler1
