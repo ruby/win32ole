@@ -66,6 +66,7 @@ static VARTYPE g_nil_to = VT_ERROR;
 static IMessageFilterVtbl message_filter;
 static IMessageFilter imessage_filter = { &message_filter };
 static IMessageFilter* previous_filter;
+static ID id_to_ole;
 
 #if defined(HAVE_TYPE_IMULTILANGUAGE2)
 static IMultiLanguage2 *pIMultiLanguage = NULL;
@@ -1250,6 +1251,8 @@ void
 ole_val2variant(VALUE val, VARIANT *var)
 {
     struct oledata *pole = NULL;
+    VALUE ole_obj = Qundef;
+  begin:
     if(rb_obj_is_kind_of(val, cWIN32OLE)) {
         pole = oledata_get_struct(val);
         OLE_ADDREF(pole->pDispatch);
@@ -1264,6 +1267,13 @@ ole_val2variant(VALUE val, VARIANT *var)
     if (rb_obj_is_kind_of(val, cWIN32OLE_RECORD)) {
         ole_rec2variant(val, var);
         return;
+    }
+    if (ole_obj == Qundef) {
+        ole_obj = rb_check_funcall(val, id_to_ole, 0, 0);
+        if (ole_obj != Qundef) {
+            val = ole_obj;
+            goto begin;
+        }
     }
     if (rb_obj_is_kind_of(val, rb_cTime)) {
         V_VT(var) = VT_DATE;
@@ -3905,6 +3915,7 @@ void
 Init_win32ole(void)
 {
     cWIN32OLE_lcid = LOCALE_SYSTEM_DEFAULT;
+    id_to_ole = rb_intern_const("to_ole");
     g_ole_initialized_init();
     check_nano_server();
 
