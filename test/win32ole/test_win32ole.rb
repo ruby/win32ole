@@ -514,6 +514,15 @@ if defined?(WIN32OLE)
       assert_raise(ArgumentError) {@dict1.method_missing("foo=")}
       assert_raise(ArgumentError) {@dict1.method_missing("foo=", 1, 2)}
     end
+
+    def test_invoke_with_too_long_string
+      skip = ENV["WIN32OLE_MEMORY_INTENSIVE_TESTS"]
+      return unless skip
+      omit "This test creates a 1GiB string" unless skip == "yes"
+      str = "a" * 0x40000000
+      assert_raise(WIN32OLE::RuntimeError) {@dict1.invoke(str)}
+      assert_raise(WIN32OLE::RuntimeError) {@dict2.invoke(str)}
+    end
   end
 
   # test of subclass of WIN32OLE
