@@ -1,10 +1,10 @@
 class << (helper = Bundler::GemHelper.instance)
-  SOURCE_PATH = "ext/stringio/stringio.c"
+  SOURCE_PATH = "ext/win32ole/win32ole.c"
   def update_source_version
     path = SOURCE_PATH
     File.open(path, "r+b") do |f|
       d = f.read
-      if d.sub!(/^#define\s+STRINGIO_VERSION\s+\K".*"/) {version.to_s.dump}
+      if d.sub!(/^#define\s+WIN32OLE_VERSION\s+\K".*"/) {version.to_s.dump}
         f.rewind
         f.truncate(0)
         f.print(d)
