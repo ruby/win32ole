@@ -16,4 +16,6 @@ Rake::TestTask.new(:test) do |t|
 end
 
 task :default => :test
-task :test => :compile
+if /mswin|mingw|cygwin/ =~ RbConfig::CONFIG['host_os']
+  task :test => :compile
+end
