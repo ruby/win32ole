@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Provides an interface for OLE Automation in Ruby}
   spec.description   = spec.summary
   spec.homepage      = "https://github.com/ruby/win32ole"
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
+  spec.required_ruby_version = Gem::Requirement.new(">= 2.4.0")
   spec.licenses      = ["Ruby", "BSD-2-Clause"]
 
   spec.metadata["homepage_uri"] = spec.homepage
