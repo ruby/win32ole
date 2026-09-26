@@ -52,6 +52,11 @@ if defined?(WIN32OLE::Event)
         @sql = "SELECT * FROM __InstanceModificationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LocalTime'"
       end
 
+      def teardown
+        # If GC collects this connection during a later test, WMI cancels that test's query.
+        @wmi.ole_free
+      end
+
       def message_loop(watch_ivar = nil)
         if watch_ivar
           orig_ivar = instance_variable_get(watch_ivar)
