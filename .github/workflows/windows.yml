@@ -8,7 +8,7 @@ jobs:
     with:
       engine: cruby
       min_version: 2.4
-      versions: '["mswin", "mingw"]'
+      versions: '["mswin-head", "mswin-4.0", "mingw"]'
 
   test:
     needs: ruby-versions

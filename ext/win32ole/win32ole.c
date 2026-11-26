@@ -318,7 +318,7 @@ static ULONG ( STDMETHODCALLTYPE Release )(
     if (u == 0) {
         st_data_t key = p->obj;
         st_delete(DATA_PTR(com_hash), &key, 0);
-        free(p);
+        xfree(p);
     }
     return u;
 }
@@ -353,7 +353,7 @@ static HRESULT ( STDMETHODCALLTYPE GetIDsOfNames )(
     */
     char* psz = ole_wc2mb(*rgszNames); // support only one method
     ID nameid = rb_check_id_cstr(psz, (long)strlen(psz), cWIN32OLE_enc);
-    free(psz);
+    xfree(psz);
     if ((ID)(DISPID)nameid != nameid) return E_NOINTERFACE;
     *rgDispId = (DISPID)nameid;
     return S_OK;
@@ -790,8 +790,8 @@ ole_excepinfo2msg(EXCEPINFO *pExInfo)
     else {
         rb_str_cat2(error_msg, "<No Description>");
     }
-    if(pSource) free(pSource);
-    if(pDescription) free(pDescription);
+    if(pSource) xfree(pSource);
+    if(pDescription) xfree(pDescription);
     ole_freeexceptinfo(pExInfo);
     return error_msg;
 }
@@ -846,7 +846,7 @@ ole_free(void *ptr)
 {
     struct oledata *pole = ptr;
     OLE_FREE(pole->pDispatch);
-    free(pole);
+    xfree(pole);
 }
 
 static size_t ole_size(const void *ptr)
@@ -1211,9 +1211,9 @@ ole_val_ary2variant_ary(VALUE val, VARIANT *var, VARTYPE vt)
     pid  = ALLOC_N(LONG, dim);
 
     if(!psab || !pub || !pid) {
-        if(pub) free(pub);
-        if(psab) free(psab);
-        if(pid) free(pid);
+        if(pub) xfree(pub);
+        if(psab) xfree(psab);
+        if(pid) xfree(pid);
         rb_raise(rb_eRuntimeError, "memory allocation error");
     }
 
@@ -1237,9 +1237,9 @@ ole_val_ary2variant_ary(VALUE val, VARIANT *var, VARTYPE vt)
         hr = SafeArrayUnlock(psa);
     }
 
-    if(pub) free(pub);
-    if(psab) free(psab);
-    if(pid) free(pid);
+    if(pub) xfree(pub);
+    if(psab) xfree(psab);
+    if(pid) xfree(pid);
 
     if (SUCCEEDED(hr)) {
         V_VT(var) = vt;
@@ -1410,7 +1410,7 @@ ary_new_dim(VALUE myary, LONG *pid, LONG *plb, LONG dim) {
         obj = rb_ary_entry(pobj, ids[i]);
         pobj = obj;
     }
-    if (ids) free(ids);
+    if (ids) xfree(ids);
     return obj;
 }
 
@@ -1450,9 +1450,9 @@ ole_variant2val(VARIANT *pvar)
         pub = ALLOC_N(LONG, dim);
 
         if(!pid || !plb || !pub) {
-            if(pid) free(pid);
-            if(plb) free(plb);
-            if(pub) free(pub);
+            if(pid) xfree(pid);
+            if(plb) xfree(plb);
+            if(pub) xfree(pub);
             rb_raise(rb_eRuntimeError, "memory allocation error");
         }
 
@@ -1491,9 +1491,9 @@ ole_variant2val(VARIANT *pvar)
             }
             SafeArrayUnlock(psa);
         }
-        if(pid) free(pid);
-        if(plb) free(plb);
-        if(pub) free(pub);
+        if(pid) xfree(pid);
+        if(plb) xfree(plb);
+        if(pub) xfree(pub);
         return obj;
     }
     switch(V_VT(pvar) & ~VT_BYREF){
@@ -1683,11 +1683,11 @@ reg_get_val(HKEY hkey, const char *subkey)
                 DWORD len = ExpandEnvironmentStrings(pbuf2, NULL, 0);
                 pbuf = ALLOC_N(char, len + 1);
                 ExpandEnvironmentStrings(pbuf2, pbuf, len + 1);
-                free(pbuf2);
+                xfree(pbuf2);
             }
             val = rb_str_new2((char *)pbuf);
         }
-        free(pbuf);
+        xfree(pbuf);
     }
     return val;
 }
@@ -1762,7 +1762,7 @@ ole_const_load(ITypeLib *pTypeLib, VALUE klass, VALUE self)
                 }
                 SysFreeString(bstr);
                 if(pName) {
-                    free(pName);
+                    xfree(pName);
                     pName = NULL;
                 }
             }

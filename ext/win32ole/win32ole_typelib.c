@@ -199,7 +199,7 @@ oletypelib_free(void *ptr)
 {
     struct oletypelibdata *poletypelib = ptr;
     OLE_FREE(poletypelib->pTypeLib);
-    free(poletypelib);
+    xfree(poletypelib);
 }
 
 static size_t

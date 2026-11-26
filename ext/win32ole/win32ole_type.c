@@ -64,7 +64,7 @@ oletype_free(void *ptr)
 {
     struct oletypedata *poletype = ptr;
     OLE_FREE(poletype->pTypeInfo);
-    free(poletype);
+    xfree(poletype);
 }
 
 static size_t
