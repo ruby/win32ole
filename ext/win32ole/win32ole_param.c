@@ -39,7 +39,7 @@ oleparam_free(void *ptr)
 {
     struct oleparamdata *pole = ptr;
     OLE_FREE(pole->pTypeInfo);
-    free(pole);
+    xfree(pole);
 }
 
 static size_t

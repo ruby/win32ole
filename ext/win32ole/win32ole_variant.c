@@ -35,7 +35,7 @@ olevariant_free(void *ptr)
     struct olevariantdata *pvar = ptr;
     VariantClear(&(pvar->realvar));
     VariantClear(&(pvar->var));
-    free(pvar);
+    xfree(pvar);
 }
 
 static size_t
@@ -315,7 +315,7 @@ folevariant_s_array(VALUE klass, VALUE elems, VALUE vvt)
 
     psa = SafeArrayCreate((VARTYPE)(vt & VT_TYPEMASK), dim, psab);
     if (psa == NULL) {
-        if (psab) free(psab);
+        if (psab) xfree(psab);
         rb_raise(rb_eRuntimeError, "memory allocation error(SafeArrayCreate)");
     }
 
@@ -327,7 +327,7 @@ folevariant_s_array(VALUE klass, VALUE elems, VALUE vvt)
     } else {
         V_ARRAY(&(pvar->var)) = psa;
     }
-    if (psab) free(psab);
+    if (psab) xfree(psab);
     return obj;
 }
 
@@ -531,7 +531,7 @@ folevariant_ary_aref(int argc, VALUE *argv, VALUE self)
     val = ole_variant2val(&variant);
 
     unlock_safe_array(psa);
-    if (pid) free(pid);
+    if (pid) xfree(pid);
     return val;
 }
 
@@ -592,7 +592,7 @@ folevariant_ary_aset(int argc, VALUE *argv, VALUE self)
     }
 
     unlock_safe_array(psa);
-    if (pid) free(pid);
+    if (pid) xfree(pid);
     return argv[argc-1];
 }
 

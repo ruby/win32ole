@@ -33,7 +33,7 @@ olevariable_free(void *ptr)
 {
     struct olevariabledata *polevar = ptr;
     OLE_FREE(polevar->pTypeInfo);
-    free(polevar);
+    xfree(polevar);
 }
 
 static size_t

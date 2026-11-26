@@ -99,7 +99,7 @@ ole_rec2variant(VALUE rec, VARIANT *var)
             ole_raise(hr, eWIN32OLERuntimeError, "failed to get size for allocation of VT_RECORD object");
         }
         if (prec->pdata) {
-            free(prec->pdata);
+            xfree(prec->pdata);
         }
         prec->pdata = ALLOC_N(char, size);
         if (!prec->pdata) {
@@ -217,9 +217,9 @@ olerecord_free(void *ptr) {
     struct olerecorddata *pvar = ptr;
     OLE_FREE(pvar->pri);
     if (pvar->pdata) {
-        free(pvar->pdata);
+        xfree(pvar->pdata);
     }
-    free(pvar);
+    xfree(pvar);
 }
 
 static size_t

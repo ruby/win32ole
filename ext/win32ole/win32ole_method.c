@@ -54,7 +54,7 @@ olemethod_free(void *ptr)
     struct olemethoddata *polemethod = ptr;
     OLE_FREE(polemethod->pTypeInfo);
     OLE_FREE(polemethod->pOwnerTypeInfo);
-    free(polemethod);
+    xfree(polemethod);
 }
 
 static size_t

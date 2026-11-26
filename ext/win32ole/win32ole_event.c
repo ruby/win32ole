@@ -325,7 +325,7 @@ EVENTSINK_Destructor(
     ) {
     if(pEVObj != NULL) {
         OLE_RELEASE(pEVObj->pTypeInfo);
-        free(pEVObj);
+        xfree(pEVObj);
         pEVObj = NULL;
     }
 }
@@ -571,7 +571,7 @@ find_iid(VALUE ole, char *pitf, IID *piid, ITypeInfo **ppTypeInfo)
                                                                pImplTypeAttr);
                     }
                 }
-                free(pstr);
+                xfree(pstr);
                 OLE_RELEASE(pImplTypeInfo);
                 if (is_found || FAILED(hr))
                     break;
@@ -874,7 +874,7 @@ oleevent_free(void *ptr)
         poleev->pConnectionPoint = NULL;
     }
     OLE_RELEASE(poleev->pDispatch);
-    free(poleev);
+    xfree(poleev);
 }
 
 static size_t
